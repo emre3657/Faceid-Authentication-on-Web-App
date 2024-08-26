@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faceid</title>
+    <link rel="stylesheet" href="/static/faceid.css" />
+  </head>
+  <body>
+    <div class="form">
+      <img
+        class="processedImage"
+        src="data:image/jpeg;base64,{{ img_str }}"
+        id="processedImage"
+      />
+      <div class="flash_dflt_cnt">
+        <div class="flash" id="flash">
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %} {% for category, message in messages %}
+          <div
+            class=" alert alert-{{ category }} alert-dismissible fade show "
+            role="alert"
+          >
+            <span>{{ message }}</span>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %} {% endif %} {% endwith %}
+        </div>
+
+        <div class="default_btn_container" id="default_btn_container">
+          <label for="faceid" id="label">Scan your face to get a face id</label>
+          <button id="startButton" type="default_btn">Scan Face</button>
+          <form action="/signup-control" method="post">
+            <label for="exit">Back to log in</label>
+            <button id="exitButton" type="default_btn">Exit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden" id="form2">
+      <div class="video_container">
+        <div class="imgvideo">
+          <video id="video" class="video" autoplay></video>
+          <!-- Ekran görüntüsünün gösterileceği img etiketi -->
+          <img id="screenshotImg" type="hidden" class="video" />
+          <form id="imageForm" action="/signupFaceid" method="post">
+            <input type="hidden" id="imageInput" name="img" value="" />
+          </form>
+        </div>
+
+        <div class="seconder_btn_container">
+          <!-- Screenshoot almayı sağlayan buton -->
+          <button id="screenshotButton" class="hidden" type="seconder_btn">
+            Take Screenshoot
+          </button>
+          <!-- Close Camera Butonu -->
+          <button id="closeVideoButton" class="hidden" type="seconder_btn">
+            Close Camera
+          </button>
+          <!-- Submit Butonu-->
+          <button id="submitButton" class="hidden" type="seconder_btn">
+            Submit
+          </button>
+          <!-- Cancel Butonu -->
+          <button id="cancelButton" class="hidden" type="seconder_btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const video = document.getElementById("video");
+      const startButton = document.getElementById("startButton");
+      const exitButton = document.getElementById("exitButton");
+      const screenshotButton = document.getElementById("screenshotButton");
+      const submitButton = document.getElementById("submitButton");
+      const cancelButton = document.getElementById("cancelButton");
+      const closeVideoButton = document.getElementById("closeVideoButton");
+      const processedImage = document.getElementById("processedImage");
+      const screenshotImg = document.getElementById("screenshotImg");
+      const default_btn_container = document.getElementById(
+        "default_btn_container"
+      );
+      const flash = document.getElementById("flash");
+      const form2 = document.getElementById("form2");
+
+      // Kamerayı başlatan buton tıklandığında
+      startButton.addEventListener("click", async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          video.srcObject = stream;
+
+          // Video oynatılmaya başladığında veya yüklenmeye başladığında
+          video.addEventListener("loadedmetadata", () => {
+            /*startButton.classList.add("hidden");
+              exitButton.classList.add("hidden");*/
+            default_btn_container.classList.add("hidden");
+            processedImage.classList.add("hidden");
+            screenshotImg.classList.add("hidden");
+            flash.classList.add("hidden");
+            form2.classList.remove("hidden");
+            screenshotButton.classList.remove("hidden");
+            closeVideoButton.classList.remove("hidden");
+          });
+        } catch (error) {
+          console.error("Kamera erişim hatası:", error);
+        }
+      });
+
+      // ScreenShot butonuna bastığında
+      screenshotButton.addEventListener("click", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // Ekran görüntüsünü alınan img etiketi içinde göster
+        screenshotImg.src = canvas.toDataURL("image/png");
+        screenshotImg.width = 400;
+        screenshotImg.height = 300;
+        screenshotImg.classList.remove("hidden");
+        // Video akışını durdur
+        video.pause();
+        // Screenshot butonunu gizle
+        screenshotButton.classList.add("hidden");
+        closeVideoButton.classList.add("hidden");
+        // Submit ve Cancel butonlarını göster
+        submitButton.classList.remove("hidden");
+        cancelButton.classList.remove("hidden");
+        video.classList.add("hidden");
+      });
+
+      // Close Video butonuna bastığında
+      closeVideoButton.addEventListener("click", () => {
+        // Kamerayı kapat
+        video.srcObject.getTracks().forEach((track) => track.stop());
+        // Video elementini temizle
+        video.srcObject = null;
+        // Close Video butonunu gizle
+        closeVideoButton.classList.add("hidden");
+        // Screenshot butonunu gizle
+        screenshotButton.classList.add("hidden");
+        // Scan face butonu gösterme
+        /*startButton.classList.remove("hidden");
+        exitButton.classList.remove("hidden");*/
+        default_btn_container.classList.remove("hidden");
+        form2.classList.add("hidden");
+      });
+
+      // Submit butonuna bastığında
+      submitButton.addEventListener("click", () => {
+        flash.classList.add("hidden");
+        // Formu sunucuya gönder
+        const imgData = screenshotImg.src;
+        document.getElementById("imageInput").value = imgData;
+        document.getElementById("imageForm").submit();
+        form2.classList.add("hidden");
+      });
+
+      // Cancel butonuna bastığında
+      cancelButton.addEventListener("click", () => {
+        // Image etiketini gizle
+        screenshotImg.classList.add("hidden");
+        // Submit ve Cancel butonlarını gizle
+        submitButton.classList.add("hidden");
+        cancelButton.classList.add("hidden");
+        // Video akışını devam ettir
+        video.play();
+        // Screenshot butonunu göster
+        screenshotButton.classList.remove("hidden");
+        closeVideoButton.classList.remove("hidden");
+        video.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>

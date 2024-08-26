@@ -1,0 +1,201 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.container {
+  width: 320px;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.login-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+.error {
+  color: red;
+  text-align: center;
+  font-size: 0.9em; /* Yazı boyutunu istediğiniz değere ayarlayın */
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  font-size: 0.9em; /* Yazı boyutunu istediğiniz değere ayarlayın */
+}
+
+a {
+  text-decoration: none; /* Alt çizgiyi kaldırır */
+  margin-left: 12px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #999;
+}
+
+.password-container {
+  position: relative;
+}
+
+.toggle-password::before {
+  content: "\f070"; /* FontAwesome'da göz açık simgesi */
+  font-family: "Font Awesome 5 Free";
+}
+
+.toggle-password.fa-eye-slash::before {
+  content: "\f06e"; /* FontAwesome'da göz kapalı simgesi */
+}
+
+.or-divider {
+  text-align: center;
+  margin-top: 7px;
+  margin-bottom: 3px;
+}
+
+.or-divider hr {
+  display: inline-block;
+  width: 42%; /* istediğiniz genişliği ayarlayabilirsiniz */
+  margin: 3px;
+  border: none;
+  border-top: 1px solid #a09f9f; /* çizginin rengi */
+}
+
+.or-divider span {
+  color: #000;
+  font-size: 12px; /* veya istediğiniz boyut */
+}
+.alert {
+  width: fit-content;
+  padding: 3px;
+  font-size: 1em;
+  border-radius: 5px;
+  text-align: center;
+}
+.alert-error {
+  background-color: rgb(182, 53, 53);
+}
+.alert-warning {
+  background-color: burlywood;
+}
+
+.alert-success {
+  background-color: rgb(64, 177, 64);
+}
+.alert-info {
+  background-color: aqua;
+}
+.btn-close {
+  color: black;
+  background-color: white;
+  border: none; /* Çerçeveyi kaldırır */
+  border-radius: 5px;
+  font-size: large;
+  font-weight: normal;
+  width: auto;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.btn-close:hover {
+  background-color: rgb(150, 150, 150);
+}
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8em;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+button:hover {
+  background-color: #45a049;
+}
+.video {
+  width: 400px;
+  height: 300px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.video_container {
+  display: none;
+}
+/* Video container'ı görünür hale getiren sınıf */
+.video_container_visible {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.hidden {
+  display: none;
+}
+#loadingIcon {
+  margin-top: 10px; /* Videodan aşağıya biraz boşluk bırakır */
+}

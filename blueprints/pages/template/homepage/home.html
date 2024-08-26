@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dostlar Yazilim Kulubu</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Club" />
+    <link rel="stylesheet" href="/static/home.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div id="information">
+          <h1>Friends Software Club</h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <form id="homeForm" action="/home-page" method="post">
+                <input type="hidden" name="_method" value="POST" />
+                <a
+                  href="#"
+                  onclick="document.getElementById('homeForm').submit();"
+                  >Home Page</a
+                >
+              </form>
+            </li>
+            <li>
+              <form id="profileForm" action="/profile" method="post">
+                <input type="hidden" name="_method" value="POST" />
+                <a
+                  href="#"
+                  onclick="document.getElementById('profileForm').submit();"
+                  >Profile</a
+                >
+              </form>
+            </li>
+            <li>
+              <form id="logoutForm" action="/logout" method="post">
+                <input type="hidden" name="_method" value="POST" />
+                <a
+                  href="#"
+                  onclick="document.getElementById('logoutForm').submit();"
+                  >Log out</a
+                >
+              </form>
+            </li>
+            <li>
+              <div class="user">
+                <span>{{username}}</span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section id="showcase"></section>
+    <section id="boxes">
+      <div class="container">
+        <div class="box">
+          <p>
+            <img src="/static/image/gd2.png" />
+          </p>
+          <h2>Graphic Design</h2>
+        </div>
+        <div class="box">
+          <p>
+            <img src="/static/image/wb 2.png" />
+          </p>
+          <h2>Web Development</h2>
+        </div>
+        <div class="box">
+          <p>
+            <img src="/static/image/da2.png" />
+          </p>
+          <h2>Data Analyst</h2>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <p>Friends Software Club &copy;2024</p>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var usernameElement = document.querySelector(".user span");
+        var username = usernameElement.innerText;
+        if (username.length > 8) {
+          usernameElement.innerText = username.substring(0, 8) + "...";
+          usernameElement.setAttribute("title", username);
+        }
+      });
+    </script>
+  </body>
+</html>

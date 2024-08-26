@@ -1,0 +1,124 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 320px;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+.signup-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="repassword"],
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+p {
+  text-align: center;
+  font-size: 0.9em; /* Yazı boyutunu istediğiniz değere ayarlayın */
+  color: #000;
+}
+
+a {
+  text-decoration: none; /* Alt çizgiyi kaldırır */
+  margin-left: 10px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #999;
+}
+
+.password-container {
+  position: relative;
+}
+
+.toggle-password::before {
+  content: "\f070"; /* FontAwesome'da göz açık simgesi */
+  font-family: "Font Awesome 5 Free";
+}
+
+.toggle-password.fa-eye-slash::before {
+  content: "\f06e"; /* FontAwesome'da göz kapalı simgesi */
+}
+.alert-error {
+  background-color: rgb(182, 53, 53);
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+}
+.alert-warning {
+  background-color: burlywood;
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 5px;
+}
+.alert-success {
+  background-color: rgb(64, 177, 64);
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+}
+.alert-info {
+  background-color: aqua;
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btn-close {
+  color: black;
+  background-color: white;
+  border: none; /* Çerçeveyi kaldırır */
+  font-size: larger;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-left: 10px;
+}

@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  background-color: #252074; /* Mavi tonuna yakın bir renk */
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.img {
+  width: 60vw; /* Resim genişliği */
+  height: 100vh; /* Resmin oranlarını korumak için */
+  /*margin-right: auto; /* Resmi sola yasla */
+}
+
+.buttons {
+  /*margin-left: auto; /* Butonları sağa yasla */
+  /*margin-right: 80px; /* Sağ taraftan boşluk bırak */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+.login-button,
+.signup-button {
+  margin: 5px;
+  padding: 20px 50px;
+  font-size: 16px;
+  border: none;
+  background-color: #5047e7;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: large;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background-color: #fff;
+  transition: 0.5s;
+  color: black;
+}
+
+.welcome-text {
+  text-align: center;
+  color: white;
+}
+.setbuttons {
+  align-self: center;
+  display: flex;
+}

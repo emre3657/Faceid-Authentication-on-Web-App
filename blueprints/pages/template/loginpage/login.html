@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+    <link rel="stylesheet" href="/static/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="video_container" id="video_container">
+      <video id="video" class="video" autoplay></video>
+      <span id="loadingIcon" style="color: gray"
+        ><i class="fas fa-spinner fa-spin"></i> Verifying</span
+      >
+    </div>
+    <div class="loginForm" id="loginForm">
+      <div id="flash" class="flash">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class=" alert alert-{{ category }} alert-dismissible fade show "
+          role="alert"
+        >
+          <span>{{ message }}</span>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+      </div>
+
+      <div class="container">
+        <h1>Welcome Back</h1>
+
+        <div class="login-box">
+          <form method="post" action="/login">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email address"
+              required
+            /><br />
+            <div class="password-container">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePasswordVisibility()"
+              ></span>
+            </div>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+            <button id="loginButton" class="Button">Log in</button>
+          </form>
+          <div class="or-divider">
+            <hr />
+            <span>OR</span>
+            <hr />
+          </div>
+          <form method="post" action="/loginFaceid" id="imageForm">
+            <button id="scanButton" class="Button">Use Faceid</button>
+            <input type="hidden" id="imageInput" name="img" value="" />
+          </form>
+          <p>Don't have an account?<a href="/signup-page">Sign Up</a></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const video_container = document.getElementById("video_container");
+      const scanButton = document.getElementById("scanButton");
+      const loginForm = document.getElementById("loginForm");
+      const flash = document.getElementById("flash");
+      //const cancelButton = document.getElementById("cancelButton");
+
+      // Kamerayı başlatan buton tıklandığında
+      scanButton.addEventListener("click", async (event) => {
+        // Formun gönderilmesini engelle
+        event.preventDefault();
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          video.srcObject = stream;
+
+          video_container.classList.remove("video_container");
+          video_container.classList.add("video_container_visible");
+          flash.classList.add("hidden");
+
+          // 3 saniye sonra formu gönder
+          setTimeout(() => {
+            // Video akışı başladığında ekran görüntüsünü al ve formu gönder
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext("2d");
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // Ekran görüntüsünü input'un valusına koy.
+            imageInput.value = canvas.toDataURL("image/png");
+            document.getElementById("imageForm").submit();
+          }, 100); // 3000 ms (3 saniye) gecikme
+        } catch (error) {
+          console.error("Kamera erişim hatası:", error);
+        }
+      });
+
+      function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var eyeIcon = document.querySelector(".toggle-password");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          eyeIcon.classList.toggle("fa-eye-slash");
+          eyeIcon.classList.toggle("fa-eye");
+        } else {
+          passwordInput.type = "password";
+          eyeIcon.classList.toggle("fa-eye");
+          eyeIcon.classList.toggle("fa-eye-slash");
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
